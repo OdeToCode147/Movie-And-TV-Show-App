@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Navbar from "./Components/Navbar";
+import Search from "./Components/Search";
 import Home from "./Pages/Home";
 import MovieDetail from "./Pages/MovieDetail";
 import MovieGenre from "./Pages/MovieGenre";
@@ -37,6 +38,7 @@ function App() {
           <Route path="TV/type/:type" element={<TVShowsList />} />
           <Route path="tv/genre/:genre" element={<TVShowsGenre />} />
           <Route path="tv/theme/:theme" element={<TVShowsThemeList />} />
+          <Route path="/find/:search" element={<Search />} />
           <Route path="*" element={<NoPage />} />
         </Routes>
       </BrowserRouter>

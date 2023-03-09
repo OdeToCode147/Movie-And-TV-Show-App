@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import Search from "./Search";
+import { Link, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const [movieGenre, setMovieGenre] = useState("");
   const [tvGenre, setTvGenre] = useState("");
-  const [searchText, setSearchText] = useState("");
+  const [find, setFind] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch(
@@ -26,6 +26,15 @@ const Navbar = () => {
       })
     );
   }, []);
+
+  const handleChange = (e) => {
+    setFind(e.target.value);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    navigate(`/find/${find}`);
+  };
 
   const [show, setShow] = useState(false);
   return (
@@ -64,26 +73,91 @@ const Navbar = () => {
                 Home
               </Link>
             </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/popular">
+            <li className="nav-item dropdown">
+              <Link
+                className="nav-link dropdown-toggle"
+                to="#"
+                id="navbarDropdown"
+                role="button"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
                 Popular
               </Link>
+              <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+                <Link className="dropdown-item" to="/popular">
+                  Movies
+                </Link>
+                <Link className="dropdown-item" to="/tv/type/popular">
+                  TV Shows
+                </Link>
+              </div>
             </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/top_rated">
+            <li className="nav-item dropdown">
+              <Link
+                className="nav-link dropdown-toggle"
+                to="#"
+                id="navbarDropdown"
+                role="button"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
                 Top Rated
               </Link>
+              <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+                <Link className="dropdown-item" to="/top_rated">
+                  Movies
+                </Link>
+                <Link className="dropdown-item" to="/tv/type/top_rated">
+                  TV Shows
+                </Link>
+              </div>
             </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/now_playing">
+            <li className="nav-item dropdown">
+              <Link
+                className="nav-link dropdown-toggle"
+                to="#"
+                id="navbarDropdown"
+                role="button"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
                 Now Playing
               </Link>
+              <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+                <Link className="dropdown-item" to="/now_playing">
+                  Movies
+                </Link>
+                <Link className="dropdown-item" to="/tv/type/on_the_air">
+                  TV Shows
+                </Link>
+              </div>
             </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/upcoming">
+            <li className="nav-item dropdown">
+              <Link
+                className="nav-link dropdown-toggle"
+                to="#"
+                id="navbarDropdown"
+                role="button"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
                 Upcoming
               </Link>
+              <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+                <Link className="dropdown-item" to="/upcoming">
+                  Movies
+                </Link>
+                <Link className="dropdown-item" to="/tv/type/airing_today">
+                  TV Shows
+                </Link>
+              </div>
             </li>
+
             <li className="nav-item dropdown">
               <Link
                 className="nav-link dropdown-toggle"
@@ -122,18 +196,6 @@ const Navbar = () => {
                 TV Shows
               </Link>
               <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                <Link className="dropdown-item" to="/tv/type/popular">
-                  Popular
-                </Link>
-                <Link className="dropdown-item" to="/tv/type/top_rated">
-                  Top Rated
-                </Link>
-                <Link className="dropdown-item" to="/tv/type/airing_today">
-                  Airing Today
-                </Link>
-                <Link className="dropdown-item" to="/tv/type/on_the_air">
-                  On The Air
-                </Link>
                 {tvGenre &&
                   tvGenre.map((genre) => (
                     <Link
@@ -148,18 +210,16 @@ const Navbar = () => {
             </li>
           </ul>
           {/* <div className="dropdown-divider"></div> */}
-          <form className="form-inline ms-auto">
+          <form className="form-inline ms-auto" onSubmit={handleSubmit}>
             <input
+              onChange={handleChange}
+              name="find"
               className="form-control"
               type="search"
               placeholder="Search"
               aria-label="Search"
             />
-            <button
-              className="btn btn-outline-info m-2 my-sm-0"
-              type="submit"
-              onClick={``}
-            >
+            <button className="btn btn-outline-info m-2 my-sm-0" type="submit">
               Search
             </button>
           </form>
