@@ -12,7 +12,7 @@ const Search = () => {
 
   useEffect(() => {
     fetch(
-      `https://api.themoviedb.org/3/search/multi?api_key=87c98f2492b42f48b506b2d48f51461e&query=${search}`
+      `https://api.themoviedb.org/3/search/multi?api_key=87c98f2492b42f48b506b2d48f51461e&query=${search}&page=${page1}`
     )
       .then((res) => res.json())
       .then((json) => {
@@ -20,7 +20,7 @@ const Search = () => {
         setTotalPages(json.total_pages);
         window.scrollTo(0, 0);
       });
-  }, [search]);
+  }, [search,page1]);
   return (
     <>
       <h3 className="sectionHeading">{"Results for" + " " + search}</h3>
@@ -42,10 +42,14 @@ const Search = () => {
                               ? search.poster_path
                               : search.profile_path
                           }`
-                        : "https://www.themoviedb.org/assets/2/v4/glyphicons/basic/glyphicons-basic-4-user-grey-d8fe957375e70239d6abdd549fd7568c89281b2179b5f4470e2e12895792dfa5.svg"
+                        : search.media_type==="person"? "https://www.themoviedb.org/assets/2/v4/glyphicons/basic/glyphicons-basic-4-user-grey-d8fe957375e70239d6abdd549fd7568c89281b2179b5f4470e2e12895792dfa5.svg" : "https://www.themoviedb.org/assets/2/v4/glyphicons/basic/glyphicons-basic-38-picture-grey-c2ebdbb057f2a7614185931650f8cee23fa137b93812ccb132b9df511df1cfac.svg"
                     }
                     title={search.title ? search.title : search.name}
-                    year={search.release_date ? search.release_date : search.first_air_date}
+                    year={
+                      search.release_date
+                        ? search.release_date
+                        : search.first_air_date
+                    }
                     department={search.known_for_department}
                     overview={search.overview}
                     genreID={
@@ -55,10 +59,14 @@ const Search = () => {
                     }
                     movies={
                       search.known_for
-                        ? search.known_for.map((movies) => movies.title ? movies.title : movies.name)
+                        ? search.known_for.map((movies) =>
+                            movies.title ? movies.title : movies.name
+                          )
                         : ""
                     }
-                    media_type = {search.media_type==="person" ? "" : search.media_type}
+                    media_type={
+                      search.media_type === "person" ? "" : search.media_type
+                    }
                   />
                 </Link>
               </div>

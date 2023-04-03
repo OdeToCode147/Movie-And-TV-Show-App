@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-// import { useLocation } from "react-router-dom";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
-import NoPage from "./NoPage";
 import ImgCard from "../Components/ImgCard";
 import ImgCardSmall from "../Components/ImgCardSmall";
 
@@ -16,6 +14,7 @@ const MovieDetail = () => {
   const [similarMovies, setSimilarMovies] = useState();
   const [userLocaction, setUserLocaction] = useState();
   const [streaming, setStreaming] = useState();
+  const [providers, setProviders] = useState();
   const { id } = useParams();
   const listType = ["popular", "top_rated", "upcoming", "now_playing"];
   const [displayListType, setDisplayListType] = useState();
@@ -24,13 +23,6 @@ const MovieDetail = () => {
   const [randomGenre, setRandomGenre] = useState();
   const [randomGenreList, setRandomGenreList] = useState();
 
-  console.log(randomListType);
-  console.log(page);
-  console.log(displayListType);
-
-  //Component location
-  // const location = useLocation();
-  // console.log(location);
   //Random genre, Movie Type and Page
   useEffect(() => {
     setRandomListType(listType[Math.floor(Math.random() * listType.length)]);
@@ -62,8 +54,6 @@ const MovieDetail = () => {
       });
   }, [id]);
 
-  console.log(randomGenre);
-
   // Random Data from the Genres Lists
 
   useEffect(() => {
@@ -77,8 +67,6 @@ const MovieDetail = () => {
         });
     }
   }, [id, randomGenre, page]);
-
-  console.log(randomGenreList);
 
   //Main Movie Details
   useEffect(() => {
@@ -103,7 +91,9 @@ const MovieDetail = () => {
         window.scrollTo(0, 0);
       });
   }, [id]);
+
   //currentBackdrop.videos.results.filter((i) => i.site === "YouTube")
+  //
   //Themes
   useEffect(() => {
     fetch(
@@ -135,6 +125,7 @@ const MovieDetail = () => {
   //       });
   // }, [id, languages]);
   // console.log(languages);
+  //
   // Cast and Crew
   useEffect(() => {
     fetch(
@@ -179,8 +170,17 @@ const MovieDetail = () => {
         window.scrollTo(0, 0);
       });
   }, [id]);
-  // const providers = streaming[userLocaction];
-  // console.log(providers);
+
+  //Providers
+  useEffect(() => {
+    for (var prop in streaming) {
+      if (streaming.hasOwnProperty(prop)) {
+        if (prop === userLocaction) {
+          setProviders(streaming[prop]);
+        }
+      }
+    }
+  }, [userLocaction, streaming]);
 
   //Skeleton Loading
 
@@ -190,30 +190,6 @@ const MovieDetail = () => {
     }, 1100);
   }, []);
 
-  //console.log( currentMovieDetails ? currentMovieDetails.images.posters[Math.floor(Math.random() * currentMovieDetails.images.posters.length)].file_path : '');
-  // console.log(
-  //   currentMovieDetails
-  //     ? currentMovieDetails.videos.results[
-  //         Math.floor(Math.random() * currentMovieDetails.videos.results.length)
-  //       ].name
-  //     : ""
-  // );
-
-  // console.log(currentBackdrop);
-  // console.log(movieCastCrew);
-  // console.log(moviethemes);
-  // console.log(similarMovies);
-  // console.log(streaming);
-
-  // useEffect(() => {
-  //   if(streaming && userLocaction){
-  //     console.log(streaming)
-  //     console.log(userLocaction)
-
-  //   }
-
-  // }, [streaming , userLocaction]);
-  console.log(randomGenreList);
   return (
     <div>
       {isLoading ? (
@@ -231,12 +207,14 @@ const MovieDetail = () => {
               <img
                 src={`https://image.tmdb.org/t/p/original${
                   currentBackdrop && currentBackdrop.images.backdrops.length > 0
-                    ? currentBackdrop.images.backdrops[
+                    ? currentBackdrop.images.backdrops.filter(
+                        (image) => image.width > 1800
+                      )[
                         Math.floor(
                           Math.random() *
                             currentBackdrop.images.backdrops.length
                         )
-                      ].file_path
+                      ]?.file_path
                     : ""
                 }`}
                 alt=""
@@ -244,167 +222,169 @@ const MovieDetail = () => {
               />
             </div>
           </div>
-          <div className="movieDetailContainer">
-            <div className="leftContainer">
-              <div className="posterContainer">
-                {currentMovieDetails &&
-                currentMovieDetails.images.posters.length > 0 ? (
-                  <img
-                    src={`https://image.tmdb.org/t/p/original${
-                      currentMovieDetails &&
-                      currentMovieDetails.images.posters.length > 0
-                        ? currentMovieDetails.images.posters[
-                            Math.floor(
-                              Math.random() *
-                                currentMovieDetails.images.posters.length
-                            )
-                          ].file_path
-                        : ""
-                    }`}
-                    alt=""
-                    className="poster"
-                  />
-                ) : (
-                  <img
-                    src="https://www.themoviedb.org/assets/2/v4/glyphicons/basic/glyphicons-basic-38-picture-grey-c2ebdbb057f2a7614185931650f8cee23fa137b93812ccb132b9df511df1cfac.svg"
-                    alt=""
-                    className="noPoster"
-                  />
-                )}
-              </div>
-              <div className="linkHolder">
-                {currentMovieDetails && currentMovieDetails.imdb_id ? (
-                  <Link
-                    to={`https://www.imdb.com/title/${
-                      currentMovieDetails && currentMovieDetails.imdb_id
-                        ? currentMovieDetails.imdb_id
-                        : ""
-                    }`}
-                    target="_blank"
-                  >
-                    <div className="link btn btn-warning">IMDB</div>
-                  </Link>
-                ) : (
-                  ""
-                )}
-                {currentMovieDetails && currentMovieDetails.homepage ? (
-                  <Link
-                    to={`${
-                      currentMovieDetails ? currentMovieDetails.homepage : ""
-                    }`}
-                    target="_blank"
-                  >
-                    <div className="link btn btn-danger">WebSite</div>
-                  </Link>
-                ) : (
-                  ""
-                )}
-              </div>
-            </div>
-            <div className="rightContainer">
-              {currentMovieDetails && currentMovieDetails.title ? (
-                <h1 className="movieTitle">
-                  {currentMovieDetails ? currentMovieDetails.title : ""}
-                </h1>
-              ) : (
-                ""
-              )}
-              {currentMovieDetails && currentMovieDetails.tagline ? (
-                <div className="tagline">
-                  {currentMovieDetails ? currentMovieDetails.tagline : ""}
+          <div className="d-flex flex-column">
+            <div className="movieDetailContainer">
+              <div className="leftContainer">
+                <div className="posterContainer">
+                  {currentMovieDetails &&
+                  currentMovieDetails.images.posters.length > 0 ? (
+                    <img
+                      src={`https://image.tmdb.org/t/p/original${
+                        currentMovieDetails &&
+                        currentMovieDetails.images.posters.length > 0
+                          ? currentMovieDetails.images.posters[
+                              Math.floor(
+                                Math.random() *
+                                  currentMovieDetails.images.posters.length
+                              )
+                            ].file_path
+                          : ""
+                      }`}
+                      alt=""
+                      className="poster"
+                    />
+                  ) : (
+                    <img
+                      src="https://www.themoviedb.org/assets/2/v4/glyphicons/basic/glyphicons-basic-38-picture-grey-c2ebdbb057f2a7614185931650f8cee23fa137b93812ccb132b9df511df1cfac.svg"
+                      alt=""
+                      className="noPoster"
+                    />
+                  )}
                 </div>
-              ) : (
-                ""
-              )}
-
-              <div className="yearRuntimeRatingContainer">
-                {currentMovieDetails && currentMovieDetails.release_date ? (
-                  <>
+                <div className="linkHolder">
+                  {currentMovieDetails && currentMovieDetails.imdb_id ? (
                     <Link
-                      to={`/movie/year/${currentMovieDetails.release_date.slice(
-                        0,
-                        4
-                      )}`}
-                      style={{ textDecoration: "none" }}
+                      to={`https://www.imdb.com/title/${
+                        currentMovieDetails && currentMovieDetails.imdb_id
+                          ? currentMovieDetails.imdb_id
+                          : ""
+                      }`}
+                      target="_blank"
                     >
-                      <div className="year">
-                        {currentMovieDetails && currentMovieDetails.release_date
-                          ? currentMovieDetails.release_date.slice(0, 4)
-                          : ""}
-                      </div>
+                      <div className="link btn btn-warning">IMDB</div>
                     </Link>
-                  </>
-                ) : (
-                  ""
-                )}
-                {currentMovieDetails && currentMovieDetails.runtime > 0 ? (
-                  <div className="runtime">
-                    {currentMovieDetails
-                      ? currentMovieDetails.runtime + " " + "Mins"
-                      : ""}
-                  </div>
-                ) : (
-                  ""
-                )}
-                {currentMovieDetails && currentMovieDetails.spoken_languages
-                  ? currentMovieDetails.spoken_languages.map((language) => (
-                      <>
-                        <Link
-                          to={`/movie/language/${language.iso_639_1}&${language.english_name}`}
-                          style={{ textDecoration: "none" }}
-                        >
-                          <div className="language" id={language.iso_639_1}>
-                            {language.english_name}
-                          </div>
-                        </Link>
-                      </>
-                    ))
-                  : ""}
-                {currentMovieDetails && currentMovieDetails.vote_average > 0 ? (
-                  <div className="rating">
-                    {currentMovieDetails
-                      ? currentMovieDetails.vote_average.toFixed(1) +
-                        " " +
-                        "/ 10"
-                      : ""}
-                  </div>
-                ) : (
-                  ""
-                )}
+                  ) : (
+                    ""
+                  )}
+                  {currentMovieDetails && currentMovieDetails.homepage ? (
+                    <Link
+                      to={`${
+                        currentMovieDetails ? currentMovieDetails.homepage : ""
+                      }`}
+                      target="_blank"
+                    >
+                      <div className="link btn btn-danger">WebSite</div>
+                    </Link>
+                  ) : (
+                    ""
+                  )}
+                </div>
               </div>
-              {currentMovieDetails && currentMovieDetails.genres ? (
-                <div className="genreContainer">
-                  {currentMovieDetails && currentMovieDetails.genres
-                    ? currentMovieDetails.genres.map((genre) => (
+              <div className="rightContainer">
+                {currentMovieDetails && currentMovieDetails.title ? (
+                  <h1 className="movieTitle">
+                    {currentMovieDetails ? currentMovieDetails.title : ""}
+                  </h1>
+                ) : (
+                  ""
+                )}
+                {currentMovieDetails && currentMovieDetails.tagline ? (
+                  <div className="tagline">
+                    {currentMovieDetails ? currentMovieDetails.tagline : ""}
+                  </div>
+                ) : (
+                  ""
+                )}
+                <div className="yearRuntimeRatingContainer">
+                  {currentMovieDetails && currentMovieDetails.release_date ? (
+                    <>
+                      <Link
+                        to={`/movie/year/${currentMovieDetails.release_date.slice(
+                          0,
+                          4
+                        )}`}
+                        style={{ textDecoration: "none" }}
+                      >
+                        <div className="year">
+                          {currentMovieDetails &&
+                          currentMovieDetails.release_date
+                            ? currentMovieDetails.release_date.slice(0, 4)
+                            : ""}
+                        </div>
+                      </Link>
+                    </>
+                  ) : (
+                    ""
+                  )}
+                  {currentMovieDetails && currentMovieDetails.runtime > 0 ? (
+                    <div className="runtime">
+                      {currentMovieDetails
+                        ? currentMovieDetails.runtime + " " + "Mins"
+                        : ""}
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                  {currentMovieDetails && currentMovieDetails.spoken_languages
+                    ? currentMovieDetails.spoken_languages.map((language) => (
                         <>
                           <Link
-                            to={`/movie/genre/${genre.id}&${genre.name}`}
+                            to={`/movie/language/${language.iso_639_1}&${language.english_name}`}
                             style={{ textDecoration: "none" }}
                           >
-                            <div className="genreContainer">
-                              <div className="genre" id={genre.id}>
-                                {genre.name}
-                              </div>
+                            <div className="language" id={language.iso_639_1}>
+                              {language.english_name}
                             </div>
                           </Link>
                         </>
                       ))
                     : ""}
+                  {currentMovieDetails &&
+                  currentMovieDetails.vote_average > 0 ? (
+                    <div className="rating">
+                      {currentMovieDetails
+                        ? currentMovieDetails.vote_average.toFixed(1) +
+                          " " +
+                          "/ 10"
+                        : ""}
+                    </div>
+                  ) : (
+                    ""
+                  )}
                 </div>
-              ) : (
-                ""
-              )}
-              {currentMovieDetails && currentMovieDetails.overview ? (
-                <div className="overview">
-                  {currentMovieDetails ? currentMovieDetails.overview : ""}
-                </div>
-              ) : (
-                ""
-              )}
-            </div>
-          </div>
 
-          <div>
+                {currentMovieDetails && currentMovieDetails.genres ? (
+                  <div className="genreContainer">
+                    {currentMovieDetails && currentMovieDetails.genres
+                      ? currentMovieDetails.genres.map((genre) => (
+                          <>
+                            <Link
+                              to={`/movie/genre/${genre.id}&${genre.name}`}
+                              style={{ textDecoration: "none" }}
+                            >
+                              <div className="genreContainer">
+                                <div className="genre" id={genre.id}>
+                                  {genre.name}
+                                </div>
+                              </div>
+                            </Link>
+                          </>
+                        ))
+                      : ""}
+                  </div>
+                ) : (
+                  ""
+                )}
+                {currentMovieDetails && currentMovieDetails.overview ? (
+                  <div className="overview">
+                    {currentMovieDetails ? currentMovieDetails.overview : ""}
+                  </div>
+                ) : (
+                  ""
+                )}
+              </div>
+            </div>
+
             <div className="movieMiddleDetailContainer">
               <div className="leftMiddleContainer">
                 {movieCastCrew && movieCastCrew.crew.length > 0 ? (
@@ -414,63 +394,44 @@ const MovieDetail = () => {
                 )}
                 {movieCastCrew && movieCastCrew.crew ? (
                   <div className="crewContainer">
-                    {movieCastCrew &&
-                    movieCastCrew.crew &&
-                    movieCastCrew.crew &&
-                    movieCastCrew.crew.find(
-                      (director) => director.job === "Director"
-                    ) &&
-                    movieCastCrew.crew.find(
-                      (director) => director.job === "Director"
-                    ).id ? (
-                      <Link
-                        to={`https://www.themoviedb.org/person/${
-                          movieCastCrew && movieCastCrew.crew
-                            ? movieCastCrew.crew.find(
-                                (director) => director.job === "Director"
-                              ).id
-                            : ""
-                        }`}
-                        target="_blank"
-                      >
-                        <div className="directorContainer">
-                          {movieCastCrew &&
-                          movieCastCrew.crew.find(
-                            (director) => director.job === "Director"
-                          ).profile_path ? (
-                            <img
-                              src={`https://image.tmdb.org/t/p/original${
-                                movieCastCrew.crew.find(
-                                  (director) => director.job === "Director"
-                                ).profile_path
-                              }`}
-                              alt=""
-                              className="ccCardHolder"
-                            />
-                          ) : (
-                            <img
-                              className="ccBlankCardHolder"
-                              src="https://www.themoviedb.org/assets/2/v4/glyphicons/basic/glyphicons-basic-4-user-grey-d8fe957375e70239d6abdd549fd7568c89281b2179b5f4470e2e12895792dfa5.svg"
-                              alt=""
-                            />
-                          )}
-                          <div className="ccName">
-                            {movieCastCrew && movieCastCrew.crew
-                              ? movieCastCrew.crew.find(
-                                  (director) => director.job === "Director"
-                                ).name
-                              : ""}
-                          </div>
-                          <div className="ccTitle">
-                            {movieCastCrew && movieCastCrew.crew
-                              ? "Director"
-                              : ""}
-                          </div>
-                        </div>
-                      </Link>
-                    ) : (
-                      ""
-                    )}
+                    {movieCastCrew.crew
+                      .filter((director) => director.job === "Director")
+                      .map((director) => (
+                        <>
+                          <Link
+                            to={`https://www.themoviedb.org/person/${
+                              director.id ? director.id : ""
+                            }`}
+                            target="_blank"
+                          >
+                            <div className="directorContainer">
+                              {director.profile_path ? (
+                                <img
+                                  src={`https://image.tmdb.org/t/p/original${director.profile_path}`}
+                                  alt=""
+                                  className="ccCardHolder"
+                                />
+                              ) : (
+                                <img
+                                  className="ccBlankCardHolder"
+                                  src="https://www.themoviedb.org/assets/2/v4/glyphicons/basic/glyphicons-basic-4-user-grey-d8fe957375e70239d6abdd549fd7568c89281b2179b5f4470e2e12895792dfa5.svg"
+                                  alt=""
+                                />
+                              )}
+                              <div className="ccName">
+                                {director.name ? director.name : ""}
+                              </div>
+                              <div className="ccTitle">
+                                {director ? "Director" : ""}
+                              </div>
+                            </div>
+                          </Link>
+                        </>
+                      ))}
+                    {/* movieCastCrew.crew.find(
+                       (director) => director.job === "Director"
+                     ).id ? ( */}
+
                     {movieCastCrew &&
                     movieCastCrew.crew &&
                     movieCastCrew.crew.find(
@@ -644,19 +605,19 @@ const MovieDetail = () => {
                         to={
                           streaming &&
                           userLocaction &&
-                          streaming.IN &&
-                          streaming.IN.link
-                            ? streaming.IN.link
+                          providers &&
+                          providers.link
+                            ? providers.link
                             : ""
                         }
                         target="_blank"
                       >
                         <div className="streamingHeader">Where To Watch</div>
                         {streaming &&
-                        streaming.IN &&
-                        streaming.IN.flatrate &&
+                        providers &&
+                        providers.flatrate &&
                         userLocaction ? (
-                          streaming.IN.flatrate.slice(0, 3).map((streaming) => (
+                          providers.flatrate.slice(0, 3).map((streaming) => (
                             <div>
                               <div className="streamingContent">
                                 <img
@@ -792,7 +753,7 @@ const MovieDetail = () => {
                 ) : (
                   ""
                 )}
-                <div className="genreContainer">
+                <div className="themesContainer">
                   {moviethemes && moviethemes.keywords
                     ? moviethemes.keywords.map(
                         (theme, index) =>
@@ -802,8 +763,8 @@ const MovieDetail = () => {
                                 to={`/movie/theme/${theme.id}&${theme.name}`}
                                 style={{ textDecoration: "none" }}
                               >
-                                <div className="genreContainer">
-                                  <div className="genre" id={theme.id}>
+                                <div className="themesContainer">
+                                  <div className="theme" id={theme.id}>
                                     {theme.name}
                                   </div>
                                 </div>
@@ -815,12 +776,12 @@ const MovieDetail = () => {
                 </div>
               </div>
               <div className="rightMiddleContainer">
-                <div className="rightMiddleTop">
+                <div className="rightMiddleBox">
                   {randomGenre &&
                   randomGenre.name &&
                   randomGenreList &&
                   randomGenreList.length > 0 ? (
-                    <h1 className="sectionHeading">
+                    <h1 className="sectionHeading rightMiddleHeading">
                       {randomGenre.name.toUpperCase().replace(/_/g, " ") +
                         " " +
                         "MOVIES"}
@@ -828,7 +789,7 @@ const MovieDetail = () => {
                   ) : (
                     ""
                   )}
-                  <div className="d-flex justify-content-around flex-wrap">
+                  <div className="d-flex flex-column align-items-center flex-wrap">
                     {randomGenre && randomGenreList && randomGenreList
                       ? randomGenreList.map(
                           (movie, index) =>
@@ -841,11 +802,11 @@ const MovieDetail = () => {
                                   >
                                     <ImgCardSmall
                                       key={movie.id ? movie.id : ""}
-                                      image={`https://image.tmdb.org/t/p/original${
+                                      image={
                                         movie.poster_path
-                                          ? movie.poster_path
-                                          : ""
-                                      }`}
+                                          ? `https://image.tmdb.org/t/p/original${movie.poster_path}`
+                                          : "https://www.themoviedb.org/assets/2/v4/glyphicons/basic/glyphicons-basic-38-picture-grey-c2ebdbb057f2a7614185931650f8cee23fa137b93812ccb132b9df511df1cfac.svg"
+                                      }
                                       title={movie.title ? movie.title : ""}
                                       year={
                                         movie.release_date
@@ -876,11 +837,11 @@ const MovieDetail = () => {
                     </Link>
                   </div>
                 </div>
-                <div className="rightMiddleBottom">
+                <div className="rightMiddleBox">
                   {displayListType &&
                   randomListType &&
                   displayListType.length > 0 ? (
-                    <h1 className="sectionHeading">
+                    <h1 className="sectionHeading rightMiddleHeading">
                       {randomListType.toUpperCase().replace(/_/g, " ") +
                         " " +
                         "MOVIES"}
@@ -888,7 +849,7 @@ const MovieDetail = () => {
                   ) : (
                     ""
                   )}
-                  <div className="d-flex justify-content-around flex-wrap">
+                  <div className="d-flex flex-column align-items-center flex-wrap">
                     {displayListType
                       ? displayListType.map(
                           (movie, index) =>
@@ -901,11 +862,11 @@ const MovieDetail = () => {
                                   >
                                     <ImgCardSmall
                                       key={movie.id ? movie.id : ""}
-                                      image={`https://image.tmdb.org/t/p/original${
+                                      image={
                                         movie.poster_path
-                                          ? movie.poster_path
-                                          : ""
-                                      }`}
+                                          ? `https://image.tmdb.org/t/p/original${movie.poster_path}`
+                                          : "https://www.themoviedb.org/assets/2/v4/glyphicons/basic/glyphicons-basic-38-picture-grey-c2ebdbb057f2a7614185931650f8cee23fa137b93812ccb132b9df511df1cfac.svg"
+                                      }
                                       title={movie.title ? movie.title : ""}
                                       year={
                                         movie.release_date
@@ -952,9 +913,11 @@ const MovieDetail = () => {
                               <Link to={`/movie/${movie.id}`}>
                                 <ImgCard
                                   key={movie.id ? movie.id : ""}
-                                  image={`https://image.tmdb.org/t/p/original${
-                                    movie.poster_path ? movie.poster_path : ""
-                                  }`}
+                                  image={
+                                    movie.poster_path
+                                      ? `https://image.tmdb.org/t/p/original${movie.poster_path}`
+                                      : "https://www.themoviedb.org/assets/2/v4/glyphicons/basic/glyphicons-basic-38-picture-grey-c2ebdbb057f2a7614185931650f8cee23fa137b93812ccb132b9df511df1cfac.svg"
+                                  }
                                   title={movie.title ? movie.title : ""}
                                   year={
                                     movie.release_date ? movie.release_date : ""

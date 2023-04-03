@@ -20,13 +20,17 @@ html, body{
   background-color: transparent;
 } */
 
+
+
 .sectionHeading{
   font-weight: 700;
   margin: 20px 20px;
   display: flex;
   justify-content: space-between;
   text-align: left;
+  /* border-bottom: 2px solid currentColor; */
 }
+
 
 
 img{
@@ -46,18 +50,6 @@ a{
   color: #fff;
   font-size: 24px;
 }
-
-/* .hey{
-  display: flex;
-  justify-content: space-around;
-} */
-
-/* .navigator{
-  background-color: transparent;
-  position: absolute;
-  z-index: 1000000;
-  text-shadow: 2px 2px 10px #000000;
-} */
 
 
 /*Carousel Components*/
@@ -114,7 +106,7 @@ transition: 0.4s ease;
   display: flex;
   text-align: left;
   font-style: italic;
-  font-size: 1rem;
+  font-size: 1.1rem;
   font-weight: 500;
   width: 75%;
   margin-bottom: 0.25rem;
@@ -157,7 +149,6 @@ transform : scale(1.08);
   position: absolute; 
   flex-direction : column;
   bottom: 0; 
-  background: rgb(0, 0, 0);
   background: rgba(0, 0, 0, 0.2); /* Black see-through */
   color: #f1f1f1; 
   width: 100%;
@@ -306,15 +297,20 @@ transform : scale(1.08);
   }
 
 
+
+  .listHeader{
+    display: flex;
+    align-items: center;
+    justify-content:space-between;
+    margin: 0px 40px 0px 20px;
+  }
+
 /*Movie Page Components*/
 
 
 .moviebackdropContainer{
 width: 100%;
 height: 550px;
-overflow: hidden;
-object-fit:cover;
-object-position: 0 10%;
 z-index: 0;
 position: absolute;
 top: 61px;
@@ -382,10 +378,33 @@ box-shadow: 2px 2px 10px 2px rgb(0, 0, 0);
 .link:hover{
   transform: scale(1.04);
 }
+
+.innerPageLinkHolder{
+  display: flex;
+  flex-direction: row;
+  margin: 1.25rem 0;
+  justify-content:center;
+}
+.innerPageLink{
+  font-size: 16px;
+  padding: 0.5rem 2rem;
+  border-radius: 20px;
+}
+.innerPageLink:hover{
+  transform: scale(1.04);
+}
+.episodePageLink{
+  font-size: 16px;
+  padding: 0.5rem 0.8rem;
+  border-radius: 20px;
+}
+
 .rightContainer{
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
+  margin-top: auto;
+  margin-bottom: 20px;
 }
 .movieTitle{
   text-align: left;
@@ -399,17 +418,28 @@ box-shadow: 2px 2px 10px 2px rgb(0, 0, 0);
   font-weight: 600;
  color: antiquewhite;
  width: 50vw;
-
+ margin: -0.2rem 0;
   
 }
+
 .genreContainer{
- margin: 0.5rem 0;
   display: flex;
   flex-wrap: wrap;
  justify-content:flex-start;
 }
 .genre{
   margin-right: 1rem;
+  margin-top: -1rem;
+  margin-bottom: 1rem;
+  border: #fff solid 2px;
+  padding: 0.5rem;
+  border-radius: 20px;
+  font-size: 16px;
+}
+.tvGenre{
+  margin-right: 1rem;
+  margin-top: -1rem;
+  margin-bottom: 2.2rem;
   border: #fff solid 2px;
   padding: 0.5rem;
   border-radius: 20px;
@@ -418,14 +448,18 @@ box-shadow: 2px 2px 10px 2px rgb(0, 0, 0);
 .genre:hover{
   transform: scale(1.04);
 }
+.tvGenre:hover{
+  transform: scale(1.04);
+}
 .yearRuntimeRatingContainer{
-  margin: 0.5rem 0;
+  margin: 1.2rem 0;
   display: flex;
   flex-wrap: wrap;
  justify-content: flex-start;
 }
 .year{
   margin-right: 1rem;
+  margin-bottom: 1rem;
   border: #fff solid 2px;
   padding: 0.5rem 1rem;
   border-radius: 20px;
@@ -437,6 +471,7 @@ box-shadow: 2px 2px 10px 2px rgb(0, 0, 0);
  
 .language{
   margin-right: 1rem;
+  margin-bottom: 1rem;
    border: #fff solid 2px;
    padding: 0.5rem;
    border-radius: 20px;
@@ -447,12 +482,40 @@ box-shadow: 2px 2px 10px 2px rgb(0, 0, 0);
  }
 .runtime{
   margin-right: 1rem;
+  margin-bottom: 1rem;
   border: #fff solid 2px;
   padding: 0.5rem 1rem;
   border-radius: 20px;
 }
+.status{
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+  
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+}
+.episodeNav{
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+  font-size: 16px;
+  padding: 0.5rem 1rem;
+  border-radius: 30px;
+}
+.status1{
+  border: #DC3545 solid 1px;
+}
+.status2{
+  border: #E4A11B solid 1px;
+}
+.status3{
+  border: #14A44D solid 1px;
+}
+.status4{
+  border: #3B71CA solid 1px;
+}
 .rating{
   margin-right: 1rem;
+  margin-bottom: 1rem;
   border: #fff solid 2px;
   padding: 0.5rem 1rem;
   border-radius: 20px;
@@ -462,7 +525,11 @@ box-shadow: 2px 2px 10px 2px rgb(0, 0, 0);
   font-size: 1.2rem;
   font-weight: 500;
   width: 60vw;
-  margin-top: 1rem;
+}
+.tvOverview{
+  font-size: 1.2rem;
+  font-weight: 500;
+  width: 60vw;
 }
 .movieMiddleDetailContainer{
   background-color: transparent;
@@ -470,7 +537,7 @@ box-shadow: 2px 2px 10px 2px rgb(0, 0, 0);
   bottom: -28vh;
   left: 13vw;
   text-align: justify;
-  width: 70vw;
+  width: 80vw;
   margin: 20px;
   gap: 20px;
   display: flex;
@@ -625,25 +692,24 @@ box-shadow: 2px 2px 10px 2px rgb(0, 0, 0);
     color: #000;
   }
 
-
-  /* .themesContainer{
+  .themesContainer{
     margin: 0.5rem 0;
   display: flex;
   flex-wrap: wrap;
  justify-content:flex-start;
   }
-  .keywordsContainer{
-    margin: 0.5rem 0;
-     display: flex;
-     flex-wrap: wrap;
-    justify-content:flex-start;
-   }
-   .theme{
-     margin-right: 1rem;
-     border: #fff solid 2px;
-     padding: 0.5rem;
-     border-radius: 20px;
-   } */
+  .theme{
+    margin-right: 1rem;
+  border: #fff solid 2px;
+  padding: 0.5rem;
+  border-radius: 20px;
+  font-size: 16px;
+  }
+
+  .theme:hover{
+    transform: scale(1.04);
+  }
+  
   .streamingVideoContainer{
     display: flex;
   }
@@ -652,16 +718,22 @@ box-shadow: 2px 2px 10px 2px rgb(0, 0, 0);
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    width: 500px;
+    width: min-content;
     margin-left : auto;
   }
-  .rightMiddleTop , .rightMiddleBottom{
+  .rightMiddleBox{
     display: flex;
     flex-direction: column;
     margin: 20px 0px;
     padding: 20px 0px;
     border: #464646 solid 2px;
+    width: 360px;
     
+  }
+
+  .rightMiddleHeading{
+    max-width: 340px;
+    padding: 0;
   }
   
 
@@ -681,6 +753,192 @@ box-shadow: 2px 2px 10px 2px rgb(0, 0, 0);
 }
 
 
+.seasonsContainer{
+  transform : scale(1.08);
+    -webkit-mask-image: linear-gradient(#000 90%, rgba(0, 0, 0, 0) 100%);
+      mask-image: linear-gradient(#000 20%, rgba(0, 0, 0, 0) 100%);
+}
+
+.seasonsListPosterHolder{
+  display: inline-block;
+  transition: transform 0.2s;
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 20px;
+  cursor: pointer;
+  min-width: 200px;
+  width: 200px;
+  min-height: 287px;
+  height: 287px;
+  z-index: 0;
+  border: 1px solid rgb(99,99,99);
+}
+
+.seasonsListPosterHolder:hover{
+  transform : scale(1.08);
+  -webkit-mask-image: linear-gradient(#000 20%, rgba(0, 0, 0, 1) 100%);
+    mask-image: linear-gradient(#000 20%, rgba(0, 0, 0, 1) 100%);
+  
+  }
+
+  .seasonsListPoster {
+    display: block;
+    width: 100%;
+    transition: .5s ease;
+  }
+
+  .seasonsListPosterHolder:hover .seasonsListPoster{
+    transform : scale(1.08);
+    -webkit-mask-image: linear-gradient(#000 20%, rgba(0, 0, 0, 0) 100%);
+      mask-image: linear-gradient(#000 20%, rgba(0, 0, 0, 0) 100%);
+    }
+
+    .seasonsListDetails{
+    -webkit-mask-image: linear-gradient(#000 20%, rgba(0, 0, 0, 0) 100%);
+      mask-image: linear-gradient(#000 20%, rgba(0, 0, 0, 0) 100%);
+    }
+
+
+
+.episodeContainer{
+    -webkit-mask-image: linear-gradient(#000 70%, rgba(0, 0, 0, 0) 100%);
+      mask-image: linear-gradient(#000 20%, rgba(0, 0, 0, 0) 100%);
+}
+.episodeListBackdropHolder{
+    display: inline-block;
+    transition: transform 0.2s;
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 0px 10px;
+    cursor: pointer;
+    width: 275px;
+    min-width: 275px;
+    height: 155px;
+    min-height: 155px;
+    z-index: 0;
+    border: 1px solid rgb(99,99,99);
+    
+  }
+
+  .episodeListBackdropHolder:hover{
+    transform : scale(1.03);
+    -webkit-mask-image: linear-gradient(#000 20%, rgba(0, 0, 0, 1) 100%);
+      mask-image: linear-gradient(#000 20%, rgba(0, 0, 0, 1) 100%);
+    
+    }
+
+.episodeBackdrop{
+    width: 100%;
+    transition: .5s ease;
+  
+  
+}
+
+.episodeListBackdropHolder:hover .episodeBackdrop{
+  transform : scale(1.03);
+  -webkit-mask-image: linear-gradient(#000 20%, rgba(0, 0, 0, 0) 100%);
+    mask-image: linear-gradient(#000 20%, rgba(0, 0, 0, 0) 100%);
+  }
+
+
+.episodeDetails{
+  margin-right: 1rem;
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+  border: #fff solid 2px;
+  padding: 0.5rem 1rem;
+
+  border-radius: 20px;
+  font-size: 16px;
+}
+
+.episodeOverview{
+  font-size: 1rem;
+  font-weight: 500;
+  width: 30vw;
+}
+.episodeMainDetails{
+    -webkit-mask-image: linear-gradient(#000 50%, rgba(0, 0, 0, 0) 100%);
+      mask-image: linear-gradient(#000 20%, rgba(0, 0, 0, 0) 100%);
+}
+.episodeTitle{
+  text-align: left;
+  max-width: 515px;
+}
+
+
+.seasonEpisodeContainer{
+  width: 70vw;
+    -webkit-mask-image: linear-gradient(#000 70%, rgba(0, 0, 0, 0) 100%);
+      mask-image: linear-gradient(#000 20%, rgba(0, 0, 0, 0) 100%);
+}
+.seasonEpisodeListBackdropHolder{
+    display: inline-block;
+    transition: transform 0.2s;
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 0px 10px;
+    cursor: pointer;
+    width: 350px;
+    min-width: 350px;
+    height: 197px;
+    min-height: 197px;
+    z-index: 0;
+    border: 1px solid rgb(99,99,99);
+    
+  }
+
+  .seasonEpisodeListBackdropHolder:hover{
+    transform : scale(1.07);
+    -webkit-mask-image: linear-gradient(#000 20%, rgba(0, 0, 0, 1) 100%);
+      mask-image: linear-gradient(#000 20%, rgba(0, 0, 0, 1) 100%);
+    
+    }
+
+.seasonEpisodeBackdrop{
+    width: 100%;
+    transition: .5s ease;
+}
+
+.seasonEpisodeListBackdropHolder:hover .episodeBackdrop{
+  transform : scale(1.07);
+  -webkit-mask-image: linear-gradient(#000 20%, rgba(0, 0, 0, 0) 100%);
+    mask-image: linear-gradient(#000 20%, rgba(0, 0, 0, 0) 100%);
+  }
+
+
+.seasonEpisodeDetails{
+  margin-right: 1rem;
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+  border: #fff solid 2px;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 16px;
+}
+
+.seasonEpisodeOverview{
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+.seasonEpisodeTitle{
+  font-weight:bolder;
+  margin: 20px 20px;
+  display: flex;
+  justify-content:flex-start;
+  text-align: left;
+}
+
+
+.episodeNumberDisplay{
+  font-size: 2rem;
+  font-weight: 400;
+  color: antiquewhite;
+}
 
 /*Media Queries*/
 

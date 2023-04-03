@@ -17,6 +17,19 @@ const SeachImgCard = (props) => {
   }, []);
 
   useEffect(() => {
+    if(allGenres){
+    fetch(
+      `https://api.themoviedb.org/3/genre/tv/list?api_key=87c98f2492b42f48b506b2d48f51461e`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        setAllGenres(...allGenres , data);
+      });}
+  }, []);
+
+  
+
+  useEffect(() => {
     if (allGenres && allGenres.genres && props.genreID) {
       for (let i = 0; i < props.genreID.length; i++) {
         allGenres.genres

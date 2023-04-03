@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
 const MyPagination = ({ totalPages, setPage1 }) => {
-  let pages = 1;
+  let pages
   if (totalPages && totalPages > 500) {
     pages = 500;
   } else {
     pages = totalPages;
   }
-  console.log(pages);
+  
   const handlePageClick = (data) => {
     setPage1(data.selected + 1);
     window.scrollTo(0, 0);
@@ -21,8 +21,8 @@ const MyPagination = ({ totalPages, setPage1 }) => {
         nextLabel={"Next >"}
         // renderOnZeroPageCount={null}
         pageCount={pages}
-        pageRangeDisplayed={3}
-        marginPagesDisplayed={3}
+        pageRangeDisplayed={4}
+        marginPagesDisplayed={4}
         onPageChange={handlePageClick}
         containerClassName={"pagination justify-content-center"}
         pageClassName={"page-item"}

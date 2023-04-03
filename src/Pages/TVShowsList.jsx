@@ -46,7 +46,9 @@ const TVShowsList = (props) => {
                 <Link to={`/tv/${tv.id}`}>
                   <ImgCard
                     key={tv.id}
-                    image={`https://image.tmdb.org/t/p/original${tv.poster_path}`}
+                    image={tv.poster_path ? `https://image.tmdb.org/t/p/original${tv.poster_path}`
+                    : "https://www.themoviedb.org/assets/2/v4/glyphicons/basic/glyphicons-basic-38-picture-grey-c2ebdbb057f2a7614185931650f8cee23fa137b93812ccb132b9df511df1cfac.svg"
+                }
                     title={tv.name}
                     year={tv.first_air_date}
                     overview={tv.overview}

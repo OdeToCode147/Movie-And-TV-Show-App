@@ -10,7 +10,6 @@ const ImgCardSmall = (props) => {
       setIsLoading(false);
     }, 1000);
   }, []);
-  console.log(genreName);
 
   useEffect(() => {
     fetch(
@@ -19,7 +18,6 @@ const ImgCardSmall = (props) => {
       .then((res) => res.json())
       .then((data) => {
         setAllGenres(data);
-        console.log(data.genre);
       });
   }, []);
 

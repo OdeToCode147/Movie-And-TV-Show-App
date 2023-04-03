@@ -6,12 +6,9 @@ import { Link } from "react-router-dom";
 import ImgCard from "../Components/ImgCard";
 import MyPagination from "../Components/MyPagination";
 
-const TVShowsGenre = () => {
-  const [genreList, setGenreList] = useState("");
-  const { genre } = useParams();
-  const [genreID, setGenreID] = useState("");
-  const [genreName, setGenreName] = useState("");
-  const [genreName1, setGenreName1] = useState("");
+const TVShowsYear = () => {
+  const [yearList, setYearList] = useState("");
+  const { year } = useParams();
   const [totalPages, setTotalPages] = useState("");
   const [page1, setPage1] = useState(1);
   const [sort, setSort] = useState("popularity.desc");
@@ -58,62 +55,47 @@ const TVShowsGenre = () => {
 
   useEffect(() => {
     if (!status) {
-      setCurrentYear(new Date().getFullYear());
+      const today = new Date();
+      const year = today.getFullYear();
+      const month = String(today.getMonth() + 1).padStart(2, "0");
+      const day = String(today.getDate()).padStart(2, "0");
+      setCurrentYear(`${year}-${month}-${day}`);
     } else setCurrentYear(null);
   }, [status]);
-
   useEffect(() => {
-    if (genre) {
-      setGenreID(genre.split("&")[0]);
-      setGenreName(genre.split("&")[1]);
-      setGenreName1(genre.split("&")[2]);
-    }
     setSort("popularity.desc");
     setSortName(null);
-    setStatus("popularity.desc")
-    setStatusName(null)
     setPage1(1);
     setRandomNumber(Math.floor(Math.random() * 6));
-  }, [genre]);
-
-  useEffect(()=>{
-    if(randomNumber===5){
-      setRandomNumber2(0)
+  }, [year]);
+  useEffect(() => {
+    if (randomNumber === 5) {
+      setRandomNumber2(0);
     }
-    setRandomNumber2(randomNumber+1)
-  },[randomNumber])
+    setRandomNumber2(randomNumber + 1);
+  }, [randomNumber]);
 
   useEffect(() => {
     fetch(
-      `https://api.themoviedb.org/3/discover/tv?api_key=87c98f2492b42f48b506b2d48f51461e&page=${page1}&with_genres=${genreID}&sort_by=${sort}&with_status=${status}&release_date.lte=${currentYear}&vote_count.gte=40`
+      `https://api.themoviedb.org/3/discover/tv?api_key=87c98f2492b42f48b506b2d48f51461e&page=${page1}&first_air_date_year=${year}&sort_by=${sort}&with_status=${status}&vote_count.gte=5`
     )
       .then((res) => res.json())
       .then((data) => {
-        setGenreList(data.results);
+        setYearList(data.results);
         setTotalPages(data.total_pages);
         window.scrollTo(0, 0);
       });
-  }, [genreID, page1, sort, status, currentYear]);
+  }, [year, page1, sort, status]);
 
   return (
     <>
       <div>
-        {genreName ? (
+        {year ? (
           <>
             <div className="listHeader">
-              {genreName && genreName1 ? (
-                <h1 className="sectionHeading">
-                  {genreName.toUpperCase().replace(/_/g, " ") +
-                    "&" +
-                    genreName1.toUpperCase().replace(/_/g, " ") +
-                    " " +
-                    "SHOWS"}
-                </h1>
-              ) : (
-                <h1 className="sectionHeading">
-                  {genreName.toUpperCase().replace(/_/g, " ") + " " + "SHOWS"}
-                </h1>
-              )}
+              <h1 className="sectionHeading">{year + " " + "SHOWS"}</h1>
+              <div></div>
+
               <div className="d-flex">
                 <div className="mr-3">
                   <DropdownButton
@@ -154,10 +136,9 @@ const TVShowsGenre = () => {
                 </div>
               </div>
             </div>
-
             <div className="d-flex justify-content-around flex-wrap">
-              {genreList &&
-                genreList.map((tv) => {
+              {yearList &&
+                yearList.map((tv) => {
                   return (
                     <div>
                       <Link to={`/tv/${tv.id}`}>
@@ -182,7 +163,7 @@ const TVShowsGenre = () => {
           ""
         )}
       </div>
-      {genre && totalPages ? (
+      {year && totalPages ? (
         <>
           <MyPagination
             setPage1={setPage1}
@@ -196,4 +177,4 @@ const TVShowsGenre = () => {
   );
 };
 
-export default TVShowsGenre;
+export default TVShowsYear;
