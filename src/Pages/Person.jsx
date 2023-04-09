@@ -333,7 +333,7 @@ const Person = () => {
                         {personExternalLinks.instagram_id ? (
                           <>
                             <Link
-                              to={`https://instagram.com/${personExternalLinks.twitter_id}`}
+                              to={`https://instagram.com/${personExternalLinks.instagram_id}`}
                               target="_blank"
                               className="innerPageLink"
                             >
