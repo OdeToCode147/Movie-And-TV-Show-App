@@ -17,8 +17,18 @@ const ImgCardSmall = (props) => {
     )
       .then((res) => res.json())
       .then((data) => {
-        setAllGenres(data);
+        setAllGenres(data.genres);
       });
+  }, []);
+
+  useEffect(() => {
+    fetch(
+      `https://api.themoviedb.org/3/genre/tv/list?api_key=87c98f2492b42f48b506b2d48f51461e`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        setAllGenres((prevGenres) => prevGenres.concat(data.genres));
+      })
   }, []);
 
   useEffect(() => {

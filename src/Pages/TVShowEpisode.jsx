@@ -356,12 +356,7 @@ const TVShowEpisode = () => {
                         ? episodeCastCrew.cast?.map((cast) => (
                             <>
                               <div>
-                                <Link
-                                  to={`https://www.themoviedb.org/person/${
-                                    cast ? cast.id : ""
-                                  }`}
-                                  target="_blank"
-                                >
+                                <Link to={`/person/${cast ? cast.id : ""}`}>
                                   <div className="castInnerContainer">
                                     {cast && cast.profile_path ? (
                                       <img
@@ -390,12 +385,7 @@ const TVShowEpisode = () => {
                         ? episodeCastCrew.guest_stars?.map((cast) => (
                             <>
                               <div>
-                                <Link
-                                  to={`https://www.themoviedb.org/person/${
-                                    cast ? cast.id : ""
-                                  }`}
-                                  target="_blank"
-                                >
+                                <Link to={`/person/${cast ? cast.id : ""}`}>
                                   <div className="castInnerContainer">
                                     {cast && cast.profile_path ? (
                                       <img
@@ -436,12 +426,7 @@ const TVShowEpisode = () => {
                         ? episodeCastCrew.crew.map((crew) => (
                             <>
                               <div>
-                                <Link
-                                  to={`https://www.themoviedb.org/person/${
-                                    crew ? crew.id : ""
-                                  }`}
-                                  target="_blank"
-                                >
+                                <Link to={`/person/${crew ? crew.id : ""}`}>
                                   <div className="castInnerContainer">
                                     {crew && crew.profile_path ? (
                                       <img
@@ -473,16 +458,17 @@ const TVShowEpisode = () => {
                   <div className="">
                     <h1 className="sectionHeading">TRAILERS & MORE...</h1>
                     <div className="d-flex">
-                    {videos.map((video) => (
-                      <div className="embed-responsive embed-responsive-16by9 w-75 m-4">
-                        <iframe
-                          title="myFrame"
-                          className="embed-responsive-item"
-                          src={`https://www.youtube.com/embed/${video.key}`}
-                        ></iframe>
-                      </div>
-                    ))}
-                  </div></div>
+                      {videos.map((video) => (
+                        <div className="embed-responsive embed-responsive-16by9 w-75 m-4">
+                          <iframe
+                            title="myFrame"
+                            className="embed-responsive-item"
+                            src={`https://www.youtube.com/embed/${video.key}`}
+                          ></iframe>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 ) : (
                   ""
                 )}

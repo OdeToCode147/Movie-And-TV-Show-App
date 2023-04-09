@@ -5,6 +5,7 @@ import ImgCard from "../Components/ImgCard";
 import ImgCardSmall from "../Components/ImgCardSmall";
 
 const MovieDetail = () => {
+  const { id } = useParams();
   const [isLoading, setIsLoading] = useState(true);
   const [currentMovieDetails, setCurrentMovieDetails] = useState();
   const [currentBackdrop, setCurrentBackdrop] = useState();
@@ -15,7 +16,8 @@ const MovieDetail = () => {
   const [userLocaction, setUserLocaction] = useState();
   const [streaming, setStreaming] = useState();
   const [providers, setProviders] = useState();
-  const { id } = useParams();
+  const [videos, setVideos] = useState();
+
   const listType = ["popular", "top_rated", "upcoming", "now_playing"];
   const [displayListType, setDisplayListType] = useState();
   const [randomListType, setRandomListType] = useState();
@@ -76,6 +78,12 @@ const MovieDetail = () => {
       .then((res) => res.json())
       .then((json) => {
         setCurrentMovieDetails(json);
+        setVideos(
+          json.videos.results
+            .filter((video) => video.site === "YouTube")
+            .sort(() => 0.5 - Math.random())
+            .slice(0, 2)
+        );
         window.scrollTo(0, 0);
       });
   }, [id]);
@@ -399,10 +407,7 @@ const MovieDetail = () => {
                       .map((director) => (
                         <>
                           <Link
-                            to={`https://www.themoviedb.org/person/${
-                              director.id ? director.id : ""
-                            }`}
-                            target="_blank"
+                            to={`/person/${director.id ? director.id : ""}`}
                           >
                             <div className="directorContainer">
                               {director.profile_path ? (
@@ -428,9 +433,6 @@ const MovieDetail = () => {
                           </Link>
                         </>
                       ))}
-                    {/* movieCastCrew.crew.find(
-                       (director) => director.job === "Director"
-                     ).id ? ( */}
 
                     {movieCastCrew &&
                     movieCastCrew.crew &&
@@ -441,7 +443,7 @@ const MovieDetail = () => {
                       (composer) => composer.job === "Original Music Composer"
                     ).id ? (
                       <Link
-                        to={`https://www.themoviedb.org/person/${
+                        to={`/person/${
                           movieCastCrew && movieCastCrew.crew
                             ? movieCastCrew.crew.find(
                                 (composer) =>
@@ -449,7 +451,6 @@ const MovieDetail = () => {
                               ).id
                             : ""
                         }`}
-                        target="_blank"
                       >
                         <div className="composerContainer">
                           {movieCastCrew &&
@@ -505,14 +506,13 @@ const MovieDetail = () => {
                       (dop) => dop.job === "Director of Photography"
                     ).id ? (
                       <Link
-                        to={`https://www.themoviedb.org/person/${
+                        to={`/person/${
                           movieCastCrew && movieCastCrew.crew
                             ? movieCastCrew.crew.find(
                                 (dop) => dop.job === "Director of Photography"
                               ).id
                             : ""
                         }`}
-                        target="_blank"
                       >
                         <div className="dopContainer">
                           {movieCastCrew &&
@@ -567,12 +567,7 @@ const MovieDetail = () => {
                   {movieCastCrew && movieCastCrew.cast
                     ? movieCastCrew.cast.slice(0, 6).map((cast) => (
                         <>
-                          <Link
-                            to={`https://www.themoviedb.org/person/${
-                              cast ? cast.id : ""
-                            }`}
-                            target="_blank"
-                          >
+                          <Link to={`/person/${cast ? cast.id : ""}`}>
                             <div className="castInnerContainer">
                               {cast && cast.profile_path ? (
                                 <img
@@ -648,100 +643,28 @@ const MovieDetail = () => {
                     </div>
                   </div>
                   <div>
-                    {currentBackdrop &&
-                    currentBackdrop.videos &&
-                    currentBackdrop.videos.results &&
-                    currentBackdrop.videos.results.filter(function (i) {
-                      return i.hasOwnProperty("key");
-                    }).length > 0 ? (
+                    {videos && videos.length > 0 ? (
                       <>
                         <h1 className="sectionHeading">TRAILERS & MORE...</h1>
-                        {currentBackdrop &&
-                        currentBackdrop.videos &&
-                        currentBackdrop.videos.results &&
-                        currentBackdrop.videos.results.filter(function (i) {
-                          return i.hasOwnProperty("key");
-                        }).length > 0 &&
-                        currentBackdrop.videos.results.filter(
-                          (i) => i.site === "YouTube"
-                        ).length > 2 ? (
-                          <div>
-                            <div className="embed-responsive embed-responsive-16by9 w-75 m-4">
-                              <iframe
-                                title="myFrame"
-                                className="embed-responsive-item"
-                                src={`https://www.youtube.com/embed/${
-                                  currentBackdrop.videos.results.filter(
-                                    (i) => i.site === "YouTube"
-                                  )
-                                    ? currentBackdrop.videos.results.filter(
-                                        (i) => i.site === "YouTube"
-                                      )[
-                                        Math.floor(
-                                          Math.random() *
-                                            currentBackdrop.videos.results.filter(
-                                              (i) => i.site === "YouTube"
-                                            ).length
-                                        )
-                                      ].key
-                                    : ""
-                                }`}
-                              ></iframe>
-                            </div>
-                            <div className="embed-responsive embed-responsive-16by9 w-75 m-4">
-                              <iframe
-                                title="myFrame"
-                                className="embed-responsive-item"
-                                src={`https://www.youtube.com/embed/${
-                                  currentBackdrop.videos.results.filter(
-                                    (i) => i.site === "YouTube"
-                                  )
-                                    ? currentBackdrop.videos.results.filter(
-                                        (i) => i.site === "YouTube"
-                                      )[
-                                        Math.floor(
-                                          Math.random() *
-                                            currentBackdrop.videos.results.filter(
-                                              (i) => i.site === "YouTube"
-                                            ).length
-                                        )
-                                      ].key
-                                    : ""
-                                }`}
-                              ></iframe>
-                            </div>
-                          </div>
-                        ) : (
-                          <div className="embed-responsive embed-responsive-16by9 ml-4 mt-4">
-                            <iframe
-                              title="myFrame"
-                              className="embed-responsive-item"
-                              src={`https://www.youtube.com/embed/${
-                                currentBackdrop.videos &&
-                                currentBackdrop.videos.results &&
-                                currentBackdrop.videos.results.filter(function (
-                                  i
-                                ) {
-                                  return i.hasOwnProperty("key");
-                                }).length > 0 &&
-                                currentBackdrop.videos.results.filter(
-                                  (i) => i.site === "YouTube"
-                                )
-                                  ? currentBackdrop.videos.results.filter(
-                                      (i) => i.site === "YouTube"
-                                    )[
-                                      Math.floor(
-                                        Math.random() *
-                                          currentBackdrop.videos.results.filter(
-                                            (i) => i.site === "YouTube"
-                                          ).length
-                                      )
-                                    ].key
-                                  : ""
-                              }`}
-                            ></iframe>
-                          </div>
-                        )}
+                        {videos && videos.length === 2
+                          ? videos.map((video) => (
+                              <div className="embed-responsive embed-responsive-16by9 w-75 m-4">
+                                <iframe
+                                  title="myFrame"
+                                  className="embed-responsive-item"
+                                  src={`https://www.youtube.com/embed/${video.key}`}
+                                ></iframe>
+                              </div>
+                            ))
+                          : videos.map((video) => (
+                              <div className="embed-responsive embed-responsive-16by9 ml-4 mt-4">
+                                <iframe
+                                  title="myFrame"
+                                  className="embed-responsive-item"
+                                  src={`https://www.youtube.com/embed/${video.key}`}
+                                ></iframe>
+                              </div>
+                            ))}
                       </>
                     ) : (
                       ""

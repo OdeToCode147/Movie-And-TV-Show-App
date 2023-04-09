@@ -14,9 +14,9 @@ const TVShowsDetail = () => {
   const [userLocaction, setUserLocaction] = useState();
   const [streaming, setStreaming] = useState();
   const [providers, setProviders] = useState();
+  const [videos, setVideos] = useState();
   const [tvthemes, SetTvThemes] = useState();
   const [similarTv, setSimilarTv] = useState();
-  const [videos, setVideos] = useState();
 
   const [tvPage, setTvPage] = useState();
   const [moviePage, setMoviePage] = useState();
@@ -825,7 +825,7 @@ const TVShowsDetail = () => {
             </div>
             <div className="movieMiddleDetailContainer">
               <div className="leftMiddleContainer">
-                {(currentTvDetails && currentTvDetails.created_by) ||
+                {(currentTvDetails && currentTvDetails.created_by ) ||
                 (mainCastCrew && mainCastCrew.crew) ? (
                   <>
                     <h1 className="sectionHeading">CREATORS</h1>
@@ -834,10 +834,7 @@ const TVShowsDetail = () => {
                         ? currentTvDetails.created_by.map((creator) => (
                             <>
                               <Link
-                                to={`https://www.themoviedb.org/person/${
-                                  creator.id ? creator.id : ""
-                                }`}
-                                target="_blank"
+                                to={`/person/${creator.id ? creator.id : ""}`}
                               >
                                 <div className="directorContainer">
                                   {creator.profile_path ? (
@@ -870,10 +867,7 @@ const TVShowsDetail = () => {
                             .map((writer) => (
                               <>
                                 <Link
-                                  to={`https://www.themoviedb.org/person/${
-                                    writer.id ? writer.id : ""
-                                  }`}
-                                  target="_blank"
+                                  to={`/person/${writer.id ? writer.id : ""}`}
                                 >
                                   <div className="directorContainer">
                                     {writer.profile_path ? (
@@ -917,12 +911,7 @@ const TVShowsDetail = () => {
                           (cast, index) =>
                             index < 24 && (
                               <div>
-                                <Link
-                                  to={`https://www.themoviedb.org/person/${
-                                    cast ? cast.id : ""
-                                  }`}
-                                  target="_blank"
-                                >
+                                <Link to={`/person/${cast ? cast.id : ""}`}>
                                   <div className="castInnerContainer">
                                     {cast && cast.profile_path ? (
                                       <img
