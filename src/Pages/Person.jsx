@@ -286,7 +286,7 @@ const Person = () => {
                   <div className="innerPageLinkHolder">
                     {personExternalLinks || personDetails ? (
                       <>
-                        {personExternalLinks.facebook_id ? (
+                        {personExternalLinks && personExternalLinks.facebook_id ? (
                           <>
                             <Link
                               to={`https://www.facebook.com/${personExternalLinks.facebook_id}`}
@@ -308,7 +308,7 @@ const Person = () => {
                         ) : (
                           ""
                         )}
-                        {personExternalLinks.twitter_id ? (
+                        {personExternalLinks && personExternalLinks.twitter_id ? (
                           <>
                             <Link
                               to={`https://twitter.com/${personExternalLinks.twitter_id}`}
@@ -330,7 +330,7 @@ const Person = () => {
                         ) : (
                           ""
                         )}
-                        {personExternalLinks.instagram_id ? (
+                        {personExternalLinks && personExternalLinks.instagram_id ? (
                           <>
                             <Link
                               to={`https://instagram.com/${personExternalLinks.instagram_id}`}
@@ -352,7 +352,7 @@ const Person = () => {
                         ) : (
                           ""
                         )}
-                        {personExternalLinks.youtube_id ? (
+                        {personExternalLinks && personExternalLinks.youtube_id ? (
                           <>
                             <Link
                               to={`https://youtube.com/c/${personExternalLinks.youtube_id}`}
@@ -374,7 +374,7 @@ const Person = () => {
                         ) : (
                           ""
                         )}
-                        {personDetails.homepage ? (
+                        {personDetails && personDetails.homepage ? (
                           <>
                             <Link
                               to={personDetails.homepage}
@@ -394,7 +394,7 @@ const Person = () => {
                               </svg>
                             </Link>
                           </>
-                        ) : personDetails.imdb_id ? (
+                        ) : personDetails && personDetails.imdb_id ? (
                           <>
                             <Link
                               to={`https://www.imdb.com/name/${personDetails.imdb_id}`}
