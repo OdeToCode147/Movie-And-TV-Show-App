@@ -395,6 +395,22 @@ box-shadow: 2px 2px 10px 2px rgb(0, 0, 0);
 .innerPageLink:hover{
   transform: scale(1.1);
 }
+.seasonPageLink{
+  font-size: 16px;
+  margin-right: 0.5rem;
+  padding: 0.5rem 2rem;
+  border-radius: 20px;
+
+}
+.seasonPageLink:hover{
+  transform: scale(1.05);
+}
+.EpisodeLinkHolder{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin: 1rem 0;
+}
 .episodePageLink{
   font-size: 16px;
   padding: 0.5rem 0.8rem;

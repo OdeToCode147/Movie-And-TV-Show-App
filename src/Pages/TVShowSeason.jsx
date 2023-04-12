@@ -149,7 +149,7 @@ const TVShowSeason = () => {
                 <div className="innerPageLinkHolder">
                   {id ? (
                     <Link to={`/tv/${id}`}>
-                      <div className="innerPageLink btn btn-warning">
+                      <div className="seasonPageLink btn btn-warning">
                         Main Page
                       </div>
                     </Link>

@@ -184,7 +184,7 @@ const TVShowEpisode = () => {
                     />
                   )}
                 </div>
-                <div className="innerPageLinkHolder">
+                <div className="EpisodeLinkHolder">
                   {id ? (
                     <>
                       <Link to={`/tv/${id}`}>
